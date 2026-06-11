@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Prediction Result</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#667eea,#764ba2);
+}
+
+.result-container{
+    width:90%;
+    max-width:700px;
+    background:white;
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+}
+
+.icon{
+    font-size:70px;
+    margin-bottom:15px;
+}
+
+h1{
+    margin-bottom:15px;
+    color:#333;
+}
+
+.risk{
+    font-size:30px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+
+.probability{
+    font-size:22px;
+    margin-bottom:25px;
+    color:#555;
+}
+
+.recommendation{
+    background:#f4f6ff;
+    padding:20px;
+    border-radius:12px;
+    margin-bottom:30px;
+    line-height:1.6;
+}
+
+.btn{
+    display:inline-block;
+    text-decoration:none;
+    background:#667eea;
+    color:white;
+    padding:12px 25px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.btn:hover{
+    background:#5563d8;
+}
+
+.high{
+    color:#dc3545;
+}
+
+.low{
+    color:#28a745;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="result-container">
+
+    {% if prediction_text == "High Attrition Risk" %}
+        <div class="icon">⚠️</div>
+        <div class="risk high">{{ prediction_text }}</div>
+    {% else %}
+        <div class="icon">✅</div>
+        <div class="risk low">{{ prediction_text }}</div>
+    {% endif %}
+
+    <h1>Prediction Completed</h1>
+
+    <div class="probability">
+        Estimated Risk of Leaving: {{ probability }}%
+    </div>
+
+    <div class="recommendation">
+
+        {% if prediction_text == "High Attrition Risk" %}
+        This employee may be at risk of leaving the organization.
+        Consider reviewing workload, job satisfaction,
+        work-life balance, and retention strategies.
+        {% else %}
+        This employee appears likely to stay with the organization.
+        Current engagement and retention indicators are positive.
+        {% endif %}
+
+    </div>
+
+    <a href="/" class="btn">
+        Predict Another Employee
+    </a>
+
+</div>
+
+</body>
+</html>
