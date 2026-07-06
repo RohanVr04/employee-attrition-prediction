@@ -44,5 +44,6 @@ def predict():
         probability=round(probability*100,2)
     )
 
-app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
     
