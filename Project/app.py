@@ -31,17 +31,24 @@ def predict():
 ]
 
     prediction = model.predict([features])[0]
-    probability = model.predict_proba([features])[0][1]
+    probabilities = model.predict_proba([features])[0]
+
+    stay_probability = round(probabilities[0] * 100, 2)
+    leave_probability = round(probabilities[1] * 100, 2)
 
     if prediction == 1:
         result = "High Attrition Risk"
+        confidence = leave_probability
     else:
         result = "Low Attrition Risk"
+        confidence = stay_probability
 
     return render_template(
-        'result.html',
+        "result.html",
         prediction_text=result,
-        probability=round(probability*100,2)
+        confidence=confidence,
+        stay_probability=stay_probability,
+        leave_probability=leave_probability
     )
 
 app.run()

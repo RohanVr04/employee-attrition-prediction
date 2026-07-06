@@ -1,129 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prediction Result</title>
+    <meta charset="UTF-8">
 
-<style>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
+    <title>Prediction Result</title>
 
-body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:linear-gradient(135deg,#667eea,#764ba2);
-}
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
 
-.result-container{
-    width:90%;
-    max-width:700px;
-    background:white;
-    border-radius:20px;
-    padding:40px;
-    text-align:center;
-    box-shadow:0 15px 35px rgba(0,0,0,0.25);
-}
-
-.icon{
-    font-size:70px;
-    margin-bottom:15px;
-}
-
-h1{
-    margin-bottom:15px;
-    color:#333;
-}
-
-.risk{
-    font-size:30px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-
-.probability{
-    font-size:22px;
-    margin-bottom:25px;
-    color:#555;
-}
-
-.recommendation{
-    background:#f4f6ff;
-    padding:20px;
-    border-radius:12px;
-    margin-bottom:30px;
-    line-height:1.6;
-}
-
-.btn{
-    display:inline-block;
-    text-decoration:none;
-    background:#667eea;
-    color:white;
-    padding:12px 25px;
-    border-radius:10px;
-    transition:0.3s;
-}
-
-.btn:hover{
-    background:#5563d8;
-}
-
-.high{
-    color:#dc3545;
-}
-
-.low{
-    color:#28a745;
-}
-
-</style>
 </head>
 
 <body>
 
-<div class="result-container">
+<div class="container">
 
-    {% if prediction_text == "High Attrition Risk" %}
-        <div class="icon">⚠️</div>
-        <div class="risk high">{{ prediction_text }}</div>
-    {% else %}
-        <div class="icon">✅</div>
-        <div class="risk low">{{ prediction_text }}</div>
-    {% endif %}
+    <header class="hero">
 
-    <h1>Prediction Completed</h1>
+        <h1>Employee Attrition Analysis</h1>
 
-    <div class="probability">
-        Estimated Risk of Leaving: {{ probability }}%
-    </div>
+        <p>
+            Prediction completed successfully.
+        </p>
 
-    <div class="recommendation">
+    </header>
 
-        {% if prediction_text == "High Attrition Risk" %}
-        This employee may be at risk of leaving the organization.
-        Consider reviewing workload, job satisfaction,
-        work-life balance, and retention strategies.
+    <section class="card">
+
+        {% if "High" in prediction_text %}
+
+        <div class="risk high-risk">
+
+            🔴 High Attrition Risk
+
+        </div>
+
         {% else %}
-        This employee appears likely to stay with the organization.
-        Current engagement and retention indicators are positive.
+
+        <div class="risk low-risk">
+
+            🟢 Low Attrition Risk
+
+        </div>
+
         {% endif %}
 
+        <h2 style="margin-top:20px;">
+
+            {{ prediction_text }}
+
+        </h2>
+
+        <br>
+
+        <h3>
+
+            Model Confidence
+
+        </h3>
+
+        <div class="progress">
+
+            <div class="progress-fill"
+
+                 style="width: {{ confidence }}%;">
+
+            </div>
+
+        </div>
+
+        <p class="percentage">
+
+            {{ confidence }}%
+
+        </p>
+
+    </section>
+
+    <section class="card">
+
+        <h2>
+
+            Prediction Breakdown
+
+        </h2>
+
+        <br>
+
+        <label>
+
+            Probability Employee Stays
+
+        </label>
+
+        <div class="progress">
+
+            <div class="progress-fill stay"
+
+                 style="width: {{ stay_probability }}%;">
+
+            </div>
+
+        </div>
+
+        <p>
+
+            {{ stay_probability }}%
+
+        </p>
+
+        <br><br>
+
+        <label>
+
+            Probability Employee Leaves
+
+        </label>
+
+        <div class="progress">
+
+            <div class="progress-fill leave"
+
+                 style="width: {{ leave_probability }}%;">
+
+            </div>
+
+        </div>
+
+        <p>
+
+            {{ leave_probability }}%
+
+        </p>
+
+    </section>
+
+    <section class="card">
+
+        <h2>
+
+            AI Recommendations
+
+        </h2>
+
+        <br>
+
+        {% if "High" in prediction_text %}
+
+        <ul>
+
+            <li>Review employee workload and overtime.</li>
+
+            <li>Conduct a career development discussion.</li>
+
+            <li>Improve work-life balance initiatives.</li>
+
+            <li>Review compensation and incentives.</li>
+
+            <li>Increase employee engagement activities.</li>
+
+        </ul>
+
+        {% else %}
+
+        <ul>
+
+            <li>Continue recognizing employee achievements.</li>
+
+            <li>Maintain healthy work-life balance.</li>
+
+            <li>Encourage career growth opportunities.</li>
+
+            <li>Continue regular feedback sessions.</li>
+
+            <li>Monitor employee satisfaction periodically.</li>
+
+        </ul>
+
+        {% endif %}
+
+    </section>
+
+    <div style="text-align:center; margin:35px;">
+
+        <a href="/" class="predict-btn"
+
+           style="text-decoration:none; display:inline-block; width:auto; padding:15px 35px;">
+
+            Analyze Another Employee
+
+        </a>
+
     </div>
 
-    <a href="/" class="btn">
-        Predict Another Employee
-    </a>
+    <footer>
+
+        Powered by Flask • XGBoost • Scikit-Learn
+
+    </footer>
 
 </div>
 
 </body>
+
 </html>
