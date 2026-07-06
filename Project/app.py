@@ -51,5 +51,6 @@ def predict():
         leave_probability=leave_probability
     )
 
-app.run()
+if __name__ == "__main__":
+    app.run(debug=True)
     
