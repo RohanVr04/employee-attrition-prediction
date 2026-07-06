@@ -1,9 +1,6 @@
 flask
-pandas
+gunicorn
 numpy
 scikit-learn
 xgboost
-imbalanced-learn
 joblib
-matplotlib
-seaborn
